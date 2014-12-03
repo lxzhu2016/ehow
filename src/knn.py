@@ -1,5 +1,6 @@
 from numpy import tile
 from numpy import array
+from numpy import zeros
 import operator
 def createDataSet():
     group=array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
@@ -22,4 +23,18 @@ def classify0(x,dataset,labels,k):
         classCount[votelabel]=classCount.get(votelabel,0)+1;
     sortedClassCount=sorted(classCount.iteritems(),key=operator.itemgetter(1),reverse=True)
     return sortedClassCount[0][0];
-    
+
+def readDataFile(filename):
+    fr=open(filename)
+    lines=fr.readlines();
+    numberOfLines=len(lines);
+    retMat=zeros((numberOfLines,3));
+    labels=[]
+    index=0
+    for line in lines:
+        line=line.strip();
+        fields=line.split('\t');
+        retMat[index,:]=fields[0:3]
+        labels.append(int(fields[-1]))
+        index+=1
+    return retMat,labels
